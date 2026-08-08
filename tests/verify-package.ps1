@@ -7,38 +7,60 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 $archive = (Resolve-Path -LiteralPath $ArchivePath).Path
-$workRoot = Join-Path ([System.IO.Path]::GetTempPath()) ('latvijas-pasts-package-test-' + [guid]::NewGuid().ToString('N'))
+$workRoot = Join-Path ([System.IO.Path]::GetTempPath()) ('nd-pasts-test-' + [guid]::NewGuid().ToString('N'))
 
 try {
     New-Item -ItemType Directory -Path $workRoot | Out-Null
     Expand-Archive -LiteralPath $archive -DestinationPath $workRoot
 
-    $files = @(Get-ChildItem -Path $workRoot -Recurse -File)
-    $uploadFiles = @(Get-ChildItem -Path (Join-Path $workRoot 'upload') -Recurse -File)
-    $phpFiles = @($uploadFiles | Where-Object Extension -eq '.php')
-    $compatibilityFiles = @($files | Where-Object Extension -in '.php', '.xml')
+    Add-Type -AssemblyName System.IO.Compression
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    $zip = [System.IO.Compression.ZipFile]::OpenRead($archive)
+    try {
+        if ($zip.Entries[0].FullName -ne 'install.xml') {
+            throw 'install.xml must be the first ZIP entry for the OpenCart installer.'
+        }
+        if (@($zip.Entries | Where-Object { $_.FullName.Contains('\') }).Count -ne 0) {
+            throw 'ZIP entry names must use forward slashes.'
+        }
+    }
+    finally {
+        $zip.Dispose()
+    }
 
-    if ($files.Count -ne 56) { throw "Expected 56 package files, found $($files.Count)." }
-    if ($uploadFiles.Count -ne 55) { throw "Expected 55 upload files, found $($uploadFiles.Count)." }
-    if ($phpFiles.Count -ne 43) { throw "Expected 43 PHP files, found $($phpFiles.Count)." }
-    if (-not (Test-Path -LiteralPath (Join-Path $workRoot 'install.xml'))) { throw 'install.xml is missing.' }
-    if (Test-Path -LiteralPath (Join-Path $workRoot 'upload/system/pasts.ocmod.xml')) { throw 'Manual storefront OCMOD was packaged twice.' }
-    if (Test-Path -LiteralPath (Join-Path $workRoot 'upload/system/pastsadmin.ocmod.xml')) { throw 'Manual admin OCMOD was packaged twice.' }
+    $required = @(
+        'install.xml',
+        'upload/admin/controller/extension/shipping/nd_pasts.php',
+        'upload/admin/view/template/extension/shipping/nd_pasts.twig',
+        'upload/catalog/model/extension/shipping/nd_pasts.php'
+    )
+
+    foreach ($relative in $required) {
+        if (-not (Test-Path -LiteralPath (Join-Path $workRoot $relative))) {
+            throw "Required package file is missing: $relative"
+        }
+    }
 
     [xml]$modification = Get-Content -LiteralPath (Join-Path $workRoot 'install.xml') -Raw
-    if ($modification.modification.code -ne 'latvijas-pasts-shipping-1-2-2') { throw 'Unexpected OCMOD code.' }
-    if (@($modification.modification.file).Count -ne 13) { throw 'Expected 13 OCMOD file targets.' }
+    if ($modification.modification.code -ne 'nd-pasts-parcel-lockers') {
+        throw 'Unexpected OCMOD code.'
+    }
 
-    $combinedText = ($compatibilityFiles | ForEach-Object { Get-Content -LiteralPath $_.FullName -Raw }) -join "`n"
-    if ($combinedText.Contains('> -1')) { throw 'Unsafe strpos comparison remains.' }
-    if ($combinedText.Contains('curl_close(')) { throw 'Deprecated curl_close() remains.' }
-    if ($combinedText.Contains('CURLOPT_SSL_VERIFYPEER, false')) { throw 'TLS peer verification is disabled.' }
-    if ($combinedText.Contains('CURLOPT_SSL_VERIFYHOST, false')) { throw 'TLS hostname verification is disabled.' }
+    $allText = (Get-ChildItem -Path $workRoot -Recurse -File | ForEach-Object {
+        Get-Content -LiteralPath $_.FullName -Raw
+    }) -join "`n"
 
-    $strictCount = ([regex]::Matches($combinedText, [regex]::Escape('!== false'))).Count
-    if ($strictCount -lt 25) { throw "Expected at least 25 strict strpos checks, found $strictCount." }
+    foreach ($forbidden in @('CURLOPT_SSL_VERIFYPEER, false', 'shell_exec(', 'eval(', 'base64_decode(')) {
+        if ($allText.Contains($forbidden)) {
+            throw "Forbidden construct found: $forbidden"
+        }
+    }
 
-    Write-Host "Package verification passed: $($files.Count) files, $($phpFiles.Count) PHP files, $strictCount strict strpos checks."
+    if (-not $allText.Contains('CURLOPT_CONNECTTIMEOUT')) { throw 'HTTP connect timeout is missing.' }
+    if (-not $allText.Contains('CURLOPT_TIMEOUT')) { throw 'HTTP request timeout is missing.' }
+    if (-not $allText.Contains('hash_equals')) { throw 'Constant-time terminal id validation is missing.' }
+
+    Write-Host 'Package verification passed.'
 }
 finally {
     if (Test-Path -LiteralPath $workRoot) {

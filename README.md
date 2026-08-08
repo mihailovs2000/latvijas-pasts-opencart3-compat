@@ -1,70 +1,62 @@
-# Latvijas Pasts OpenCart 3 compatibility builder
+# Latvijas Pasts parcel lockers for OpenCart 3
 
-Community compatibility fixes and an Extension Installer package builder for
-the official Latvijas Pasts OpenCart 3 module version 1.2.2.
+An independent, open-source OpenCart 3 shipping extension for choosing a
+Latvijas Pasts parcel locker during checkout. The parcel-locker list uses the
+public Latvijas Pasts endpoint, so API credentials are not required for this
+part of checkout.
 
-The builder keeps the upstream authorship intact and downloads the original
-module from the [official Latvijas Pasts integration page](https://pasts.lv/en/services/e-commerce/ecommerce).
-It verifies the exact upstream archives before making any changes.
+## Features
 
-## What it fixes
+- one compact, searchable parcel-locker selector instead of hundreds of
+  shipping radio buttons;
+- Latvia, Lithuania and Estonia support;
+- fixed price, free-shipping threshold, tax class and geo-zone settings;
+- 24-hour local cache with stale-cache fallback if the public service is down;
+- server-side terminal validation before checkout continues;
+- the selected locker name is stored in OpenCart's standard order shipping
+  method field, without a custom database table;
+- optional API credentials are deliberately outside this module's scope;
+- compatible with PHP 7.4 through PHP 8.5.
 
-- packages the two manual OCMOD files into one installer-ready `install.xml`;
-- replaces incorrect `strpos(...) > -1` conditions with strict
-  `!== false` checks so unrelated shipping methods are not intercepted;
-- enables TLS certificate and hostname verification for remote API requests;
-- removes PHP 8.5-deprecated `curl_close()` calls.
-
-The generated archive contains 55 upstream module files plus `install.xml` and
-does not contain API credentials or store-specific data.
+This project is a community integration. It is not an official Latvijas Pasts
+release and does not imply endorsement.
 
 ## Build
 
-Requirements: Windows PowerShell 5.1 or PowerShell 7 and internet access.
+On Windows PowerShell 5.1 or PowerShell 7:
 
 ```powershell
 ./build.ps1
 ```
 
-The result is written to:
+The installer is created at:
 
 ```text
-dist/latvijas-pasts-1.2.2-opencart3-php85.ocmod.zip
+dist/nd-pasts-parcel-lockers-1.0.0.ocmod.zip
 ```
-
-For an offline or reproducible build, download the official outer ZIP yourself
-and pass it explicitly:
-
-```powershell
-./build.ps1 -OfficialBundlePath C:\Downloads\Opencart3.zip
-```
-
-Both the outer archive and nested module archive are checked against pinned
-SHA-256 hashes. The build stops if Latvijas Pasts replaces either file; update
-the hashes only after reviewing the new upstream release.
 
 ## Install
 
-1. In OpenCart 3, open **Extensions → Installer** and upload the generated
-   `.ocmod.zip` file.
+1. Open **Extensions → Installer** in OpenCart and upload the `.ocmod.zip`.
 2. Open **Extensions → Modifications** and refresh modifications.
-3. Install only the Latvijas Pasts shipping methods and courier module you
-   need.
-4. Configure contract/API credentials, geo zones and tariffs.
-5. Keep every component disabled until a complete test checkout, label and
-   courier workflow has passed.
+3. Open **Extensions → Extensions → Shipping** and install
+   **Latvijas Pasts parcel lockers**.
+4. Configure the price, geo zone, tax class and status.
+5. Test checkout without placing a real order.
 
-Five shipping components are supplied upstream: parcel terminal, post-office
-pickup, Circle K, Express and Mans Pasts. Pasts Courier appears under Modules.
+The price field is a normal fixed amount in the store's base currency. The
+module does not need contract credentials to display or validate parcel
+lockers. Shipment creation and label printing can be added later as a separate
+integration once API access is available.
 
 ## Compatibility
 
-Validated with OpenCart 3.0.5.1 and PHP 8.5. The builder targets the official
-module 1.2.2 archive currently published by Latvijas Pasts. Other OpenCart or
-module versions are not assumed compatible.
+Tested against OpenCart 3.0.5.x and PHP 8.5. The package uses the standard
+OpenCart 3 checkout controller and default extension conventions.
 
-## Licensing
+## License
 
-The builder and repository documentation are MIT licensed. The upstream module
-is not relicensed or redistributed here because its download does not include
-an explicit redistribution license. See [NOTICE.md](NOTICE.md).
+MIT. The implementation in this repository is original and does not contain
+the proprietary/unclear-licensed official OpenCart extension source.
+
+Latvijas Pasts and related names are trademarks of their respective owners.

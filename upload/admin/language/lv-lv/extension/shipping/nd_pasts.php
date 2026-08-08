@@ -1,0 +1,23 @@
+<?php
+$_['heading_title'] = 'Latvijas Pasta pakomāti';
+$_['text_extension'] = 'Paplašinājumi';
+$_['text_success'] = 'Latvijas Pasta pakomātu iestatījumi ir saglabāti.';
+$_['text_edit'] = 'Pakomātu piegādes iestatījumi';
+$_['text_enabled'] = 'Ieslēgts';
+$_['text_disabled'] = 'Izslēgts';
+$_['text_none'] = 'Nav';
+$_['text_all_zones'] = 'Visas zonas';
+$_['text_public_api'] = 'Pakomātu izvēle izmanto publisku Latvijas Pasta servisu. Līguma/API piekļuves dati nav nepieciešami.';
+$_['entry_cost'] = 'Piegādes cena';
+$_['entry_free_total'] = 'Bezmaksas piegāde no';
+$_['entry_tax_class'] = 'Nodokļu klase';
+$_['entry_geo_zone'] = 'Ģeogrāfiskā zona';
+$_['entry_cache_ttl'] = 'Kešatmiņas ilgums (sekundes)';
+$_['entry_sort_order'] = 'Kārtošanas secība';
+$_['entry_status'] = 'Statuss';
+$_['help_free_total'] = 'Norādiet 0, lai atspējotu bezmaksas piegādi.';
+$_['help_cache_ttl'] = 'No 300 līdz 604800 sekundēm. Noklusējums: 86400 (24 stundas).';
+$_['error_permission'] = 'Jums nav tiesību mainīt šo piegādes veidu.';
+$_['error_cost'] = 'Norādiet piegādes cenu, kas nav mazāka par nulli.';
+$_['error_free_total'] = 'Norādiet bezmaksas piegādes slieksni, kas nav mazāks par nulli.';
+$_['error_cache_ttl'] = 'Kešatmiņas ilgumam jābūt no 300 līdz 604800 sekundēm.';

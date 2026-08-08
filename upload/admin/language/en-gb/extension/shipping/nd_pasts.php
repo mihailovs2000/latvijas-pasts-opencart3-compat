@@ -1,0 +1,23 @@
+<?php
+$_['heading_title'] = 'Latvijas Pasts parcel lockers';
+$_['text_extension'] = 'Extensions';
+$_['text_success'] = 'Success: Latvijas Pasts parcel locker settings were saved.';
+$_['text_edit'] = 'Edit parcel locker delivery';
+$_['text_enabled'] = 'Enabled';
+$_['text_disabled'] = 'Disabled';
+$_['text_none'] = 'None';
+$_['text_all_zones'] = 'All zones';
+$_['text_public_api'] = 'Parcel locker selection uses a public Latvijas Pasts endpoint. Contract/API credentials are not required.';
+$_['entry_cost'] = 'Delivery price';
+$_['entry_free_total'] = 'Free delivery from';
+$_['entry_tax_class'] = 'Tax class';
+$_['entry_geo_zone'] = 'Geo zone';
+$_['entry_cache_ttl'] = 'Cache lifetime (seconds)';
+$_['entry_sort_order'] = 'Sort order';
+$_['entry_status'] = 'Status';
+$_['help_free_total'] = 'Use 0 to disable free delivery.';
+$_['help_cache_ttl'] = 'Between 300 and 604800 seconds. The default is 86400 (24 hours).';
+$_['error_permission'] = 'Warning: You do not have permission to modify this shipping method.';
+$_['error_cost'] = 'Enter a non-negative delivery price.';
+$_['error_free_total'] = 'Enter a non-negative free-delivery threshold.';
+$_['error_cache_ttl'] = 'Cache lifetime must be between 300 and 604800 seconds.';
