@@ -1,0 +1,21 @@
+name: Verify builder
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build installer package
+        shell: pwsh
+        run: ./build.ps1
+      - name: Verify generated archive
+        shell: pwsh
+        run: ./tests/verify-package.ps1 ./dist/latvijas-pasts-1.2.2-opencart3-php85.ocmod.zip
