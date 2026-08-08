@@ -4,7 +4,7 @@
   <code>nd-pasts-parcel-lockers</code>
   <version>1.0.0</version>
   <author>mihailovs2000</author>
-  <link>https://github.com/mihailovs2000/latvijas-pasts-opencart3-compat</link>
+  <link>https://github.com/mihailovs2000/opencart-latvijas-pasts-parcel-lockers</link>
   <file path="catalog/controller/checkout/shipping_method.php">
     <operation error="abort">
       <search><![CDATA[		if (!$json) {]]></search>
