@@ -19,31 +19,31 @@
         <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-shipping" class="form-horizontal">
           <div class="form-group required">
             <label class="col-sm-2 control-label" for="input-cost">{{ entry_cost }}</label>
-            <div class="col-sm-10"><input type="text" name="shipping_nd_pasts_cost" value="{{ shipping_nd_pasts_cost }}" id="input-cost" class="form-control" />{% if error_cost %}<div class="text-danger">{{ error_cost }}</div>{% endif %}</div>
+            <div class="col-sm-10"><input type="text" name="shipping_latvijas_pasts_cost" value="{{ shipping_latvijas_pasts_cost }}" id="input-cost" class="form-control" />{% if error_cost %}<div class="text-danger">{{ error_cost }}</div>{% endif %}</div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-free-total"><span data-toggle="tooltip" title="{{ help_free_total }}">{{ entry_free_total }}</span></label>
-            <div class="col-sm-10"><input type="text" name="shipping_nd_pasts_free_total" value="{{ shipping_nd_pasts_free_total }}" id="input-free-total" class="form-control" />{% if error_free_total %}<div class="text-danger">{{ error_free_total }}</div>{% endif %}</div>
+            <div class="col-sm-10"><input type="text" name="shipping_latvijas_pasts_free_total" value="{{ shipping_latvijas_pasts_free_total }}" id="input-free-total" class="form-control" />{% if error_free_total %}<div class="text-danger">{{ error_free_total }}</div>{% endif %}</div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-tax-class">{{ entry_tax_class }}</label>
-            <div class="col-sm-10"><select name="shipping_nd_pasts_tax_class_id" id="input-tax-class" class="form-control"><option value="0">{{ text_none }}</option>{% for tax_class in tax_classes %}<option value="{{ tax_class.tax_class_id }}"{% if tax_class.tax_class_id == shipping_nd_pasts_tax_class_id %} selected="selected"{% endif %}>{{ tax_class.title }}</option>{% endfor %}</select></div>
+            <div class="col-sm-10"><select name="shipping_latvijas_pasts_tax_class_id" id="input-tax-class" class="form-control"><option value="0">{{ text_none }}</option>{% for tax_class in tax_classes %}<option value="{{ tax_class.tax_class_id }}"{% if tax_class.tax_class_id == shipping_latvijas_pasts_tax_class_id %} selected="selected"{% endif %}>{{ tax_class.title }}</option>{% endfor %}</select></div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-geo-zone">{{ entry_geo_zone }}</label>
-            <div class="col-sm-10"><select name="shipping_nd_pasts_geo_zone_id" id="input-geo-zone" class="form-control"><option value="0">{{ text_all_zones }}</option>{% for geo_zone in geo_zones %}<option value="{{ geo_zone.geo_zone_id }}"{% if geo_zone.geo_zone_id == shipping_nd_pasts_geo_zone_id %} selected="selected"{% endif %}>{{ geo_zone.name }}</option>{% endfor %}</select></div>
+            <div class="col-sm-10"><select name="shipping_latvijas_pasts_geo_zone_id" id="input-geo-zone" class="form-control"><option value="0">{{ text_all_zones }}</option>{% for geo_zone in geo_zones %}<option value="{{ geo_zone.geo_zone_id }}"{% if geo_zone.geo_zone_id == shipping_latvijas_pasts_geo_zone_id %} selected="selected"{% endif %}>{{ geo_zone.name }}</option>{% endfor %}</select></div>
           </div>
           <div class="form-group required">
             <label class="col-sm-2 control-label" for="input-cache-ttl"><span data-toggle="tooltip" title="{{ help_cache_ttl }}">{{ entry_cache_ttl }}</span></label>
-            <div class="col-sm-10"><input type="number" min="300" max="604800" name="shipping_nd_pasts_cache_ttl" value="{{ shipping_nd_pasts_cache_ttl }}" id="input-cache-ttl" class="form-control" />{% if error_cache_ttl %}<div class="text-danger">{{ error_cache_ttl }}</div>{% endif %}</div>
+            <div class="col-sm-10"><input type="number" min="300" max="604800" name="shipping_latvijas_pasts_cache_ttl" value="{{ shipping_latvijas_pasts_cache_ttl }}" id="input-cache-ttl" class="form-control" />{% if error_cache_ttl %}<div class="text-danger">{{ error_cache_ttl }}</div>{% endif %}</div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-sort-order">{{ entry_sort_order }}</label>
-            <div class="col-sm-10"><input type="number" name="shipping_nd_pasts_sort_order" value="{{ shipping_nd_pasts_sort_order }}" id="input-sort-order" class="form-control" /></div>
+            <div class="col-sm-10"><input type="number" name="shipping_latvijas_pasts_sort_order" value="{{ shipping_latvijas_pasts_sort_order }}" id="input-sort-order" class="form-control" /></div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
-            <div class="col-sm-10"><select name="shipping_nd_pasts_status" id="input-status" class="form-control"><option value="1"{% if shipping_nd_pasts_status %} selected="selected"{% endif %}>{{ text_enabled }}</option><option value="0"{% if not shipping_nd_pasts_status %} selected="selected"{% endif %}>{{ text_disabled }}</option></select></div>
+            <div class="col-sm-10"><select name="shipping_latvijas_pasts_status" id="input-status" class="form-control"><option value="1"{% if shipping_latvijas_pasts_status %} selected="selected"{% endif %}>{{ text_enabled }}</option><option value="0"{% if not shipping_latvijas_pasts_status %} selected="selected"{% endif %}>{{ text_disabled }}</option></select></div>
           </div>
         </form>
       </div>

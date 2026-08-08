@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <modification>
-  <name>ND Pasts parcel lockers</name>
-  <code>nd-pasts-parcel-lockers</code>
+  <name>Latvijas Pasts Parcel Lockers for OpenCart 3</name>
+  <code>latvijas-pasts-parcel-lockers</code>
   <version>1.0.0</version>
   <author>mihailovs2000</author>
   <link>https://github.com/mihailovs2000/opencart-latvijas-pasts-parcel-lockers</link>
@@ -9,15 +9,15 @@
     <operation error="abort">
       <search><![CDATA[		if (!$json) {]]></search>
       <add position="before"><![CDATA[
-		if (!$json && $this->request->post['shipping_method'] === 'nd_pasts.terminal') {
-			$this->load->language('extension/shipping/nd_pasts');
-			$this->load->model('extension/shipping/nd_pasts');
+		if (!$json && $this->request->post['shipping_method'] === 'latvijas_pasts.terminal') {
+			$this->load->language('extension/shipping/latvijas_pasts');
+			$this->load->model('extension/shipping/latvijas_pasts');
 
-			$terminal_id = isset($this->request->post['nd_pasts_terminal']) ? trim((string)$this->request->post['nd_pasts_terminal']) : '';
+			$terminal_id = isset($this->request->post['latvijas_pasts_terminal']) ? trim((string)$this->request->post['latvijas_pasts_terminal']) : '';
 			$country_code = isset($this->session->data['shipping_address']['iso_code_2']) ? $this->session->data['shipping_address']['iso_code_2'] : '';
-			$nd_pasts_terminal = $this->model_extension_shipping_nd_pasts->findTerminal($country_code, $terminal_id);
+			$latvijas_pasts_terminal = $this->model_extension_shipping_latvijas_pasts->findTerminal($country_code, $terminal_id);
 
-			if (!$nd_pasts_terminal) {
+			if (!$latvijas_pasts_terminal) {
 				$json['error']['warning'] = $this->language->get('error_terminal');
 			}
 		}
@@ -26,13 +26,19 @@
     <operation error="abort">
       <search><![CDATA[			$this->session->data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];]]></search>
       <add position="before"><![CDATA[
-			if ($this->request->post['shipping_method'] === 'nd_pasts.terminal' && isset($nd_pasts_terminal)) {
-				$this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]]['title'] = $this->language->get('text_title') . ': ' . $nd_pasts_terminal['label'];
-				$this->session->data['nd_pasts_terminal_id'] = $nd_pasts_terminal['id'];
+			if ($this->request->post['shipping_method'] === 'latvijas_pasts.terminal' && isset($latvijas_pasts_terminal)) {
+				$this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]]['title'] = $this->language->get('text_title') . ': ' . $latvijas_pasts_terminal['label'];
+				$this->session->data['latvijas_pasts_terminal_id'] = $latvijas_pasts_terminal['id'];
 			} else {
-				unset($this->session->data['nd_pasts_terminal_id']);
+				unset($this->session->data['latvijas_pasts_terminal_id']);
 			}
       ]]></add>
+    </operation>
+  </file>
+  <file path="catalog/view/theme/*/template/checkout/checkout.twig">
+    <operation error="skip">
+      <search><![CDATA[data: $('#collapse-shipping-method input[type=\'radio\']:checked, #collapse-shipping-method textarea'),]]></search>
+      <add position="replace"><![CDATA[data: $('#collapse-shipping-method input[type=\'radio\']:checked, #collapse-shipping-method textarea, #collapse-shipping-method select'),]]></add>
     </operation>
   </file>
 </modification>

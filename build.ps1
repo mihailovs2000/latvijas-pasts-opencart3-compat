@@ -1,11 +1,11 @@
 param(
-    [string]$OutputPath = (Join-Path $PSScriptRoot 'dist/nd-pasts-parcel-lockers-1.0.0.ocmod.zip')
+    [string]$OutputPath = (Join-Path $PSScriptRoot 'dist/latvijas-pasts-parcel-lockers-opencart3-1.0.0.ocmod.zip')
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-$stageRoot = Join-Path ([System.IO.Path]::GetTempPath()) ('nd-pasts-build-' + [guid]::NewGuid().ToString('N'))
+$stageRoot = Join-Path ([System.IO.Path]::GetTempPath()) ('latvijas-pasts-build-' + [guid]::NewGuid().ToString('N'))
 
 try {
     New-Item -ItemType Directory -Path $stageRoot | Out-Null
